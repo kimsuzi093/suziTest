@@ -43,8 +43,13 @@
 		</div>
 	</div>
 	</c:forEach>
-	<c:if test="${totalCount ge lastRow}">
-		<button class="btn load-more" id="${lastRow }">MORE</button>
+	<c:if test="${searchMessage == null }">
+		<c:if test="${totalCount > lastRow}">
+			<button class="btn load-more" id="${lastRow }">MORE</button>
+		</c:if>
+	</c:if>
+	<c:if test="${searchMessage != null }">
+		<p>${searchMessage }</p>
 	</c:if>
 </div>
 

@@ -11,7 +11,7 @@
 		targetPrice, state, targetDate, fname, oname, openDate) 
 		values
 		(directorboard_seq.nextval, #{title}, #{writer}, #{contents}, sysdate,
-		0, #{genre}, 0, #{targetPrice}, 1, #{targetDate}, #{fname}, #{oname}, #{openDate})
+		0, #{genre}, 0, #{targetPrice}, 1, #{targetDate}, #{fname}, #{oname}, sysdate)
 	</insert>
 	
 	<!-- 리스트 뽑아오기 -->
@@ -49,7 +49,7 @@
 		select count(num) from 
 		(select * from DIRECTORBOARD 
    			<where>
-    		<foreach collection="genre" item="item">
+    		<foreach collection="genreList" item="item">
     			and genre like '%'||#{item}||'%'
     		</foreach>
     		<if test="state=0">

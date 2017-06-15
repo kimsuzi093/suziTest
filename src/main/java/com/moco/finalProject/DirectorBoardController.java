@@ -53,11 +53,6 @@ public class DirectorBoardController {
 		int lastRow = 0;
 		int state = 0;
 		
-		System.out.println("chked_val : "+ chked_val);
-		System.out.println("chked_state :"+chked_state);
-		System.out.println("sRow : "+sRow);
-		System.out.println("----------------------------------------------");
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<String> genreList = new ArrayList<String>();
 		
@@ -68,8 +63,7 @@ public class DirectorBoardController {
 				genreList.add(checked_genre[i]);
 			}
 		}catch(Exception e){
-			genreList.add("%");
-			System.out.println("genre exception");
+			genreList.add("");
 		}
 		
 		// state
@@ -92,13 +86,16 @@ public class DirectorBoardController {
 		map.put("state", state);
 		map.put("startRow", startRow);
 		map.put("lastRow", lastRow);
+		try {
+			totalCount = directorBoardService.totalCount(map);
+			ar = directorBoardService.list(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		System.out.println("genreList : "+genreList.get(0));
-		System.out.println("state : "+state);
-		System.out.println("startRow : "+startRow);
-		System.out.println("lastRow : "+ lastRow);
-		System.out.println("totalCount : "+totalCount);
-		System.out.println("----------------------------");
+		if(ar.size()==0){
+			model.addAttribute("searchMessage", "NO LIST");
+		}
 		
 		model.addAttribute("list", ar).addAttribute("lastRow", startRow+2)
 		.addAttribute("totalCount", totalCount);
