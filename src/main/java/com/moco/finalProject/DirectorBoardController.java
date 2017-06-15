@@ -98,7 +98,7 @@ public class DirectorBoardController {
 		System.out.println("startRow : "+startRow);
 		System.out.println("lastRow : "+ lastRow);
 		System.out.println("totalCount : "+totalCount);
-		System.out.println("-------------------------------");
+		System.out.println("----------------------------");
 		
 		model.addAttribute("list", ar).addAttribute("lastRow", startRow+2)
 		.addAttribute("totalCount", totalCount);
