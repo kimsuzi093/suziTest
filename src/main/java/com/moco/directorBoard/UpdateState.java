@@ -27,6 +27,7 @@ public class UpdateState {
 			for(DirectorBoardDTO directorBoardDTO : deadlineList){
 				// investor 포인트 업데이트(minus)
 				investorList = investService.investorList(directorBoardDTO.getNum()); // pnum별 investorList
+				// delete
 				/*for(InvestDTO investDTO: investorList){
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("id", investDTO.getId()); // investor id
