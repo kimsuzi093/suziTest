@@ -42,9 +42,14 @@
 		select * from invest where pnum=#{pnum}
 	</select>
 	
+	<!-- 투자자 info -->
+	<select id="investorInfo" parameterType="String" resultType="memberDTO">
+		select * from member where id=#{id}
+	</select>
+	
 	<!-- 투자자 수 -->
-	<select id="countInvestors" parameterType="investDTO" resultType="int">
-		select count(F.id) from (select id from invest group by ID) F
+	<select id="countInvestors" parameterType="int" resultType="int">
+		select count(id) from invest where pnum=#{pnum}
 	</select>
 	
 	<!-- 나의 투자금 -->

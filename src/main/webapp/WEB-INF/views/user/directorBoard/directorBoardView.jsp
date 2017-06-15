@@ -10,6 +10,12 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 	$(function(){
+		// investors list
+		$("#viewInvestors").click(function(){
+			var pnum = $(this).attr("title");
+			window.open("./investorList?pnum="+pnum, "", "width=600,height=800");
+		});
+		
 		$("#investBtn").click(function(){
 			var chx_check = true;
 			// 약관 동의 체크
@@ -128,6 +134,8 @@
 			<td colspan="2"><a href="./download?fileName=planning_document.hwp">${boardDTO.oname }</a></td>
 		</tr>
 	</table>
+	
+	<button id="viewInvestors" title="${boardDTO.num }">Investor List</button>
 
 
 	<!-- Modal -->

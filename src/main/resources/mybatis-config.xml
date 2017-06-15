@@ -9,6 +9,7 @@
 		<typeAlias type="java.lang.String" alias="String" />
 		<typeAlias type="com.moco.directorBoard.DirectorBoardDTO" alias="directorBoardDTO"/>
 		<typeAlias type="com.moco.directorBoard.invest.InvestDTO" alias="investDTO"/>
+		<typeAlias type="com.moco.member.MemberDTO" alias="memberDTO"/>
 	</typeAliases>
 
 </configuration>

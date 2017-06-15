@@ -7,6 +7,8 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.moco.member.MemberDTO;
+
 @Service
 public class InvestService {
 	@Inject
@@ -40,8 +42,8 @@ public class InvestService {
 		return investDAO.reInvest(investDTO);
 	}
 	
-	public int countInvestors() throws Exception{
-		return investDAO.countInvestors();
+	public int countInvestors(int pnum) throws Exception{
+		return investDAO.countInvestors(pnum);
 	}
 	
 	public int myInvestMoney(Map<String, Object> map) throws Exception{
@@ -58,5 +60,9 @@ public class InvestService {
 	
 	public int totalMoney(int pnum) throws Exception{
 		return investDAO.totalMoney(pnum);
+	}
+	
+	public MemberDTO investorInfo(String id) throws Exception{
+		return investDAO.investorInfo(id);
 	}
 }

@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.moco.member.MemberDTO;
+
 @Repository
 public class InvestDAO {
 	@Inject
@@ -43,8 +45,8 @@ public class InvestDAO {
 		return sqlSession.update(MAPPER_NAME+"reInvest", investDTO);
 	}
 	
-	public int countInvestors() throws Exception{
-		return sqlSession.selectOne(MAPPER_NAME+"countInvestors");
+	public int countInvestors(int pnum) throws Exception{
+		return sqlSession.selectOne(MAPPER_NAME+"countInvestors", pnum);
 	}
 	
 	public int myInvestMoney(Map<String, Object> map) throws Exception{
@@ -61,5 +63,9 @@ public class InvestDAO {
 	
 	public int totalMoney(int pnum) throws Exception{
 		return sqlSession.selectOne(MAPPER_NAME+"totalMoney", pnum);
+	}
+	
+	public MemberDTO investorInfo(String id) throws Exception{
+		return sqlSession.selectOne(MAPPER_NAME+"investorInfo", id);
 	}
 }

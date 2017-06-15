@@ -27,14 +27,14 @@ public class UpdateState {
 			for(DirectorBoardDTO directorBoardDTO : deadlineList){
 				// investor 포인트 업데이트(minus)
 				investorList = investService.investorList(directorBoardDTO.getNum()); // pnum별 investorList
-				for(InvestDTO investDTO: investorList){
+				/*for(InvestDTO investDTO: investorList){
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("id", investDTO.getId()); // investor id
 					map.put("flag", "minus"); // minus : 마감일 경우 포인트 차감
 					map.put("kind", "investor");
 					map.put("money", investDTO.getMoney()); // investor별 money
 					investService.avaliableLikesUpdate(map);
-				}
+				}*/
 			}
 			// director 포인트 업데이트(plus)
 			for(DirectorBoardDTO directorBoardDTO : deadlineList){

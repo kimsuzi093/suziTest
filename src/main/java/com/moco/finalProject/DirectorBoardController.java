@@ -22,6 +22,7 @@ import com.moco.directorBoard.DirectorBoardService;
 import com.moco.directorBoard.invest.InvestDTO;
 import com.moco.directorBoard.invest.InvestService;
 import com.moco.fileTest.FileSaver;
+import com.moco.member.MemberDTO;
 
 @Controller
 @RequestMapping(value="/user/directorBoard/")
@@ -41,8 +42,15 @@ public class DirectorBoardController {
 	}
 	
 	@RequestMapping(value="directorBoardList", method=RequestMethod.GET)
-	public void listMain(){
-		
+	public void listMain(HttpSession session){
+		// SESSION TEST //
+		MemberDTO memberDTO = new MemberDTO();
+		try {
+			memberDTO = investService.investorInfo("suzi");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		session.setAttribute("memberDTO", memberDTO);
 	}
 
 	@RequestMapping(value="directorBoardList_ajax", method=RequestMethod.GET)
@@ -130,16 +138,17 @@ public class DirectorBoardController {
 		int myInvestMoney = 0;
 		try {
 			directorBoardDTO = (DirectorBoardDTO) directorBoardService.view(num);
-			countInvestors = investService.countInvestors();
+			countInvestors = investService.countInvestors(num);
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("id", "suzi");
+			map.put("id", ((MemberDTO)session.getAttribute("memberDTO")).getId());
 			map.put("pnum", num);
 			myInvestMoney = investService.myInvestMoney(map);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("[directorBoardView myInvestMoney exception]");
 		}
 		model.addAttribute("boardDTO", directorBoardDTO)
 		.addAttribute("countInvestors", countInvestors)
 		.addAttribute("myInvestMoney", myInvestMoney);
 	}
+
 }
