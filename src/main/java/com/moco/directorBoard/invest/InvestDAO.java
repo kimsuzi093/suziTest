@@ -21,8 +21,8 @@ public class InvestDAO {
 		return sqlSession.insert(MAPPER_NAME+"insert", investDTO);
 	}
 	
-	public int delete(InvestDTO investDTO) throws Exception{
-		return sqlSession.delete(MAPPER_NAME+"delete", investDTO);
+	public int deleteInvest(int pnum) throws Exception{
+		return sqlSession.delete(MAPPER_NAME+"deleteInvest", pnum);
 	}
 	
 	public int update(InvestDTO investDTO) throws Exception{
@@ -67,5 +67,9 @@ public class InvestDAO {
 	
 	public MemberDTO investorInfo(String id) throws Exception{
 		return sqlSession.selectOne(MAPPER_NAME+"investorInfo", id);
+	}
+	
+	public InvestDTO reInvestCheck(InvestDTO investDTO) throws Exception{
+		return sqlSession.selectOne(MAPPER_NAME+"reInvestCheck", investDTO);
 	}
 }

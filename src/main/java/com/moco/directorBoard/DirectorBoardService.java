@@ -57,5 +57,9 @@ public class DirectorBoardService implements BoardService {
 	public List<DirectorBoardDTO> compareDate() throws Exception{
 		return directorBoardDAO.compareDate();
 	}
+	
+	public int stateUpdateFinish(int num) throws Exception{
+		return directorBoardDAO.stateUpdateFinish(num);
+	}
 
 }

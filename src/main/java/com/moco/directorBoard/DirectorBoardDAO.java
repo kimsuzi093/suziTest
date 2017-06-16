@@ -63,5 +63,9 @@ public class DirectorBoardDAO implements BoardDAO{
 	public List<DirectorBoardDTO> compareDate() throws Exception{
 		return sqlSession.selectList(MAPPER_NAME+"compareDate");
 	}
+	
+	public int stateUpdateFinish(int num) throws Exception{
+		return sqlSession.update(MAPPER_NAME+"stateUpdateFinish", num);
+	}
 
 }

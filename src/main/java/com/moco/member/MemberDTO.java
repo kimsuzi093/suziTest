@@ -16,22 +16,10 @@ public class MemberDTO {
 	private int likes;
 	private int point;
 	private int avaliableLikes;
-	private int joinState;
+	private String joinState;
 	private String Oname;
 	private String Fname;
-	
-	public String getOname() {
-		return Oname;
-	}
-	public void setOname(String oname) {
-		Oname = oname;
-	}
-	public String getFname() {
-		return Fname;
-	}
-	public void setFname(String fname) {
-		Fname = fname;
-	}
+	private String joinDate;
 	public String getId() {
 		return id;
 	}
@@ -104,10 +92,30 @@ public class MemberDTO {
 	public void setAvaliableLikes(int avaliableLikes) {
 		this.avaliableLikes = avaliableLikes;
 	}
-	public int getJoinState() {
+	public String getJoinState() {
 		return joinState;
 	}
-	public void setJoinState(int joinState) {
+	public void setJoinState(String joinState) {
 		this.joinState = joinState;
 	}
+	public String getOname() {
+		return Oname;
+	}
+	public void setOname(String oname) {
+		Oname = oname;
+	}
+	public String getFname() {
+		return Fname;
+	}
+	public void setFname(String fname) {
+		Fname = fname;
+	}
+	public String getJoinDate() {
+		return joinDate;
+	}
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
+	}
+	
+	
 }

@@ -18,8 +18,8 @@ public class InvestService {
 		return investDAO.insert(investDTO);
 	}
 	
-	public int delete(InvestDTO investDTO) throws Exception{
-		return investDAO.delete(investDTO);
+	public int deleteInvest(int pnum) throws Exception{
+		return investDAO.deleteInvest(pnum);
 	}
 	
 	public int update(InvestDTO investDTO) throws Exception{
@@ -64,5 +64,9 @@ public class InvestService {
 	
 	public MemberDTO investorInfo(String id) throws Exception{
 		return investDAO.investorInfo(id);
+	}
+	
+	public InvestDTO reInvestCheck(InvestDTO investDTO) throws Exception{
+		return investDAO.reInvestCheck(investDTO);
 	}
 }

@@ -14,15 +14,22 @@
 		0, #{genre}, 0, #{targetPrice}, 1, #{targetDate}, #{fname}, #{oname}, sysdate)
 	</insert>
 	
+	<!-- delete -->
+	<delete id="delete" parameterType="int">
+		delete directorboard where num=#{num}
+	</delete>
+	
 	<!-- 리스트 뽑아오기 -->
 	<select id="list" parameterType="java.util.Map" resultType="directorBoardDTO">
 		select * from 
 		(select rownum r, t.* from 
     	(select * from DIRECTORBOARD 
    			<where>
-    		<foreach collection="genreList" item="item">
-    				and genre like '%'||#{item}||'%'
-    		</foreach>
+   			<if test="genreCheck=='true'">
+	    		<foreach collection="genreList" item="item">
+	    				and genre like '%'||#{item}||'%'
+	    		</foreach>
+   			</if>
 	   		<if test="state==0">
 	   			and state=0
 	   		</if>
@@ -43,19 +50,24 @@
 	<update id="stateUpdate">
 		update DIRECTORBOARD set state=0 where TARGETDATE <![CDATA[ < ]]> SYSDATE
 	</update>
+	<update id="stateUpdateFinish" parameterType="int">
+		update DIRECTORBOARD set state=0 where num=#{num}
+	</update>
 	
 	<!-- totalCount -->
 	<select id="totalCount" parameterType="java.util.Map" resultType="int">
 		select count(num) from 
 		(select * from DIRECTORBOARD 
    			<where>
-    		<foreach collection="genreList" item="item">
-    			and genre like '%'||#{item}||'%'
-    		</foreach>
-    		<if test="state=0">
+   			<if test="genreCheck=='true'">
+	    		<foreach collection="genreList" item="item">
+	    			and genre like '%'||#{item}||'%'
+	    		</foreach>
+	    	</if>
+    		<if test="state==0">
 	   			and state=0 
     		</if>
-    		<if test="state=1">
+    		<if test="state==1">
     			and state=1
     		</if>
    			</where>

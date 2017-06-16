@@ -13,7 +13,7 @@
 	<!-- member에서 투자자 가용포인트 update -->
 	<update id="avaliableLikesUpdate" parameterType="java.util.Map">
 		update member set 
-		<if test="kind='investor'">
+		<if test="kind=='investor'">
 			<if test="flag=='minus'">
 				avaliableLikes=avaliableLikes-#{money} 
 			</if>
@@ -22,15 +22,25 @@
 			</if>
 		</if>
 		<if test="kind=='director'">
-			avaliableLikes=avaliableLikes+#{totalMoney}
+			avaliableLikes=avaliableLikes+#{totalMoney} 
 		</if>
 		where id=#{id}
 	</update>
+	
+	<!-- deleteInvest -->
+	<delete id="deleteInvest" parameterType="int">
+		delete invest where pnum=#{pnum}	
+	</delete>
 	
 	<!-- 현재 금액 update -->
 	<update id="curPriceUpdate" parameterType="investDTO">
 		update directorboard set curPrice=curPrice+#{money} where num=#{pnum}
 	</update>
+	
+	<!-- 재투자 여부 체크 -->
+	<select id="reInvestCheck" parameterType="investDTO" resultType="investDTO">
+		select * from invest where id=#{id} and pnum=#{pnum}
+	</select>
 	
 	<!-- 재투자 update -->
 	<update id="reInvest" parameterType="investDTO">
@@ -64,6 +74,6 @@
 	
 	<!-- 투자금 총합 -->
 	<select id="totalMoney" parameterType="int" resultType="int">
-		select sum(money) from invest where pnum=#{pnum};
+		select sum(money) from invest where pnum=#{pnum}
 	</select>
 </mapper>

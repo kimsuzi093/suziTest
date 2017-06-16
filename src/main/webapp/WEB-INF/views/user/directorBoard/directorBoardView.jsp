@@ -10,6 +10,14 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 	$(function(){
+		// delete
+		$("#deleteBtn").click(function(){
+			var num = $(this).attr("title");
+			if(confirm("정말 삭제하시겠습니까? 투자금은 모두 회수됩니다.")){
+				location.href="./deleteFunding?num="+num;
+			}
+		});
+		
 		// investors list
 		$("#viewInvestors").click(function(){
 			var pnum = $(this).attr("title");
@@ -39,13 +47,19 @@
 			}
 			// 가용 포인트보다 높은 금액 입력 불가
 			var myAvailable = $("#money").attr("title");
-			if($("#money").val() > myAvailable){
-				alert(myAvailable);
-				alert($("#money").val());
+			if($("#money").val() > myAvailable*1){
 				alert("가용 포인트보다 더 많은 금액을 입력하실 수 없습니다.");
 				$("#money").val(0);
 				chx_check = false;
 			}
+			
+			var tAavailable = $("#tAavailable").attr("title");
+			if($("#money").val() > tAavailable*1){
+				alert("최대 투자 가능 금액을 초과하였습니다.");
+				$("#money").val(0);
+				chx_check = false;
+			}
+			
 			// submit check
 			if(chx_check){
 				if(confirm("정말 투자하시겠습니까?")){
@@ -122,9 +136,15 @@
 		<tr>
 			<td>나의 투자액</td>
 			<fmt:formatNumber var="myMoney" pattern="#,###">${myInvestMoney}</fmt:formatNumber>
-			<td colspan="2">${myMoney}원</td>
-			<td><button type="button" class="btn" 
-				data-toggle="modal" data-target="#myModal">투자하기</button></td>
+				<c:if test="${boardDTO.state==1 }">
+					<td colspan="2">${myMoney}원</td>
+					<td>
+						<button type="button" class="btn" data-toggle="modal" data-target="#myModal">투자하기</button>
+					</td>
+				</c:if>
+				<c:if test="${boardDTO.state==0 }">
+					<td colspan="3">${myMoney}원</td>
+				</c:if>
 		</tr>
 		<tr>
 			<td colspan="4">${boardDTO.contents }</td>
@@ -135,7 +155,11 @@
 		</tr>
 	</table>
 	
-	<button id="viewInvestors" title="${boardDTO.num }">Investor List</button>
+	<c:if test="${sessionScope.memberDTO.id == boardDTO.writer }">
+		<button id="viewInvestors" title="${boardDTO.num }">Investor List</button>
+	</c:if>
+	
+	<button id="deleteBtn" class="btn" title="${boardDTO.num }">DELETE</button>
 
 
 	<!-- Modal -->
@@ -151,6 +175,7 @@
 					<!-- Modal Body -->
 					<div class="modal-body">
 						<form action="./investInsert" method="post" name="frm">
+						<input type="hidden" name="id" value="${sessionScope.memberDTO.id }">
 						<input type="hidden" name="pnum" value="${boardDTO.num }">
 						<p>약관동의</p>
 						<div class="scrollbox"></div>
@@ -160,14 +185,13 @@
 							<div id="input-money-box-top">
 								<div class="box-sub">
 									<p>최대투자<br>가능금액</p>
-									<fmt:formatNumber var="total_available" pattern="#,###">${boardDTO.targetPrice - boardDTO.curPrice}</fmt:formatNumber>
-									<p>${total_available }</p>
+									<c:set var="total_available" value="${boardDTO.targetPrice - boardDTO.curPrice}"></c:set>
+									<fmt:formatNumber var="tAvailable" pattern="#,###">${boardDTO.targetPrice - boardDTO.curPrice}</fmt:formatNumber>
+									<p id="tAavailable" title="${boardDTO.targetPrice - boardDTO.curPrice}">${tAvailable }</p>
 								</div>
 								<div class="box-sub box-sub-middle">
 									<p>사용가능<br>포인트</p>
-									<!-- check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-									<c:set var="my_available_test" value="20000"></c:set>
-									<fmt:formatNumber var="my_available" pattern="#,###">${my_available_test }</fmt:formatNumber>
+									<fmt:formatNumber var="my_available" pattern="#,###">${sessionScope.memberDTO.avaliableLikes}</fmt:formatNumber>
 									<p>${my_available }</p>
 								</div>
 								<div class="box-sub">
@@ -177,7 +201,7 @@
 								</div>
 							</div>
 							<div id="input-money-box-bottom">
-								<input type="number" name="money" id="money" title="${my_available_test }" min="0" step="10000">
+								<input type="number" name="money" id="money" title="${sessionScope.memberDTO.avaliableLikes}" min="0" step="10000">
 							</div>
 						</div>
 						</form>
