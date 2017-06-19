@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -15,12 +16,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.moco.directorBoard.invest.InvestService;
 import com.moco.member.MemberDTO;
+import com.moco.movieAPI.BasicMovieDTO;
+import com.moco.movieAPI.BasicMovieService;
+import com.moco.movieAPI.Json.JsonMain;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
+	@Inject
+	BasicMovieService basicMovieService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -29,8 +35,6 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		
@@ -38,11 +42,19 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
+		JsonMain jsonMain = new JsonMain();
+		jsonMain.JsonMain("콘택트");
+		
 		return "home";
 	}
 	
 	@RequestMapping(value = "/user/userHome", method = RequestMethod.GET)
 	public void userHome(){
+		
+	}
+	
+	@RequestMapping(value = "/movie/movieHome", method = RequestMethod.GET)
+	public void movieHome(){
 		
 	}
 	

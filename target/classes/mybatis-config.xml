@@ -10,6 +10,7 @@
 		<typeAlias type="com.moco.directorBoard.DirectorBoardDTO" alias="directorBoardDTO"/>
 		<typeAlias type="com.moco.directorBoard.invest.InvestDTO" alias="investDTO"/>
 		<typeAlias type="com.moco.member.MemberDTO" alias="memberDTO"/>
+		<typeAlias type="com.moco.movieAPI.BasicMovieDTO" alias="basicMovieDTO"/>
 	</typeAliases>
 
 </configuration>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BasicMovieMapper">
+	<insert id="insert" parameterType="basicMovieDTO">
+		insert into basicmovie
+		(num, title, eng_title, genre, director, 
+		actor, year, nation, trailer, pub_date,
+		watching_rate, play_time, story, thumnail, keyword, 
+		user_rating) 
+		values(basicmovie_seq.nextval, #{title}, #{eng_title}, #{genre}, #{director},
+		#{actor}, #{title}, #{nation}, #{trailer}, #{pub_date},
+		#{watching_rate}, #{play_time}, #{story}, #{thumnail}, #{keyword},
+		#{user_rating})
+	</insert>
+</mapper>
