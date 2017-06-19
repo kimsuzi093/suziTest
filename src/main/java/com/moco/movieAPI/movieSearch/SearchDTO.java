@@ -7,6 +7,7 @@ public class SearchDTO {
 	private int yearMax;
 	private String director;
 	private String actor;
+	
 	public String getName() {
 		return name;
 	}

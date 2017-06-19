@@ -5,14 +5,11 @@
 
 <mapper namespace="BasicMovieMapper">
 	<insert id="insert" parameterType="basicMovieDTO">
-		insert into basicmovie
-		(num, title, eng_title, genre, director, 
-		actor, year, nation, trailer, pub_date,
-		watching_rate, play_time, story, thumnail, keyword, 
-		user_rating) 
-		values(basicmovie_seq.nextval, #{title}, #{eng_title}, #{genre}, #{director},
-		#{actor}, #{title}, #{nation}, #{trailer}, #{pub_date},
-		#{watching_rate}, #{play_time}, #{story}, #{thumnail}, #{keyword},
-		#{user_rating})
+		insert into basicmovie(num, title, eng_title, genre, director, actor, year, nation, trailer, pub_date, watching_rate, play_time, story, thumnail, keyword, user_rating) 
+		values(BASICMOVIE_SEQ.nextval, #{title}, #{eng_title}, #{genre}, #{director}, #{actor}, #{year}, #{nation}, #{trailer}, #{pub_date}, #{watching_rate}, #{play_time}, #{story}, #{thumnail}, #{keyword}, 0)
 	</insert>
+	
+	<select id="list" parameterType="java.util.Map" resultType="basicMovieDTO">
+		
+	</select>
 </mapper>

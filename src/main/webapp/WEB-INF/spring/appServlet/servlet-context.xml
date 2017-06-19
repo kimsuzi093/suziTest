@@ -35,5 +35,6 @@
 	<context:component-scan base-package="com.moco.directorBoard.invest"></context:component-scan>
 	<context:component-scan base-package="com.moco.directorBoard.schedule"></context:component-scan>
 	<context:component-scan base-package="com.moco.movieAPI"></context:component-scan>
+	<context:component-scan base-package="com.moco.movieAPI.Json"></context:component-scan>
 	
 </beans:beans>
