@@ -23,7 +23,7 @@ public class JsonMain {
 	public void JsonMain(String movieTitle){
 
 		try{
-			String apikey = "644071ae8d09952c39344fc7b0f204b1";
+			String apikey = "88726d6a5383575eb602af0d7bddd488";
 			String q = URLEncoder.encode(movieTitle, "UTF-8");
 			String requestURL = "https://apis.daum.net/contents/movie?apikey="+apikey+"&q="+q+"&output=json";
 			URL url = new URL(requestURL);

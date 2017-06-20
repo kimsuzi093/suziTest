@@ -1,18 +1,19 @@
 package com.moco.movieAPI.movieSearch;
 
 public class SearchDTO {
-	private String name;
+	private String title;
 	private String genre;
 	private int yearMin;
 	private int yearMax;
 	private String director;
 	private String actor;
+	private String nation;
 	
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getGenre() {
 		return genre;
@@ -44,5 +45,10 @@ public class SearchDTO {
 	public void setActor(String actor) {
 		this.actor = actor;
 	}
-	
+	public String getNation() {
+		return nation;
+	}
+	public void setNation(String nation) {
+		this.nation = nation;
+	}
 }
