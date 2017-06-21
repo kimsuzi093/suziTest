@@ -145,7 +145,7 @@ public class JsonMain {
 				}catch(Exception e){
 					dto.setStory("");
 				}
-				basicMovieService.insert(dto);
+				basicMovieService.lowPriceInsert(dto);
 			} 
 		}catch(Exception e){
 			e.printStackTrace();

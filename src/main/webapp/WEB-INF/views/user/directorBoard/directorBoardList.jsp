@@ -67,29 +67,28 @@
 			});
 		});
 		// ajax 페이지에 click event 위임
-		$("#search-result").on('click', function(){
-			$(".contents").click(function(){
-				var num = $(this).attr("id");
-				location.href="./directorBoardView?num="+num;
+		// contents보기
+		$("#search-result").on('click', ".contents", function(){
+			var num = $(this).attr("id");
+			location.href="./directorBoardView?num="+num;
+		});
+		// 더보기
+		$("#search-result").on('click','.load-more',function(){
+			lastRow = $(this).attr("id")*1;
+			$.ajax({
+				type : "GET",
+				url : "./directorBoardList_ajax",
+				data : {
+					chked_val : chked_val,
+					chked_state : chked_state,
+					sRow : lastRow+1
+				},
+				success : function(data) {
+					data = data.trim();
+					$(".load-more").remove();
+					$("#search-result").append(data);
+				}
 			});
-			// 더보기
-			$(".load-more").click(function(){
-				lastRow = $(this).attr("id")*1;
-					$.ajax({
-						type : "GET",
-						url : "./directorBoardList_ajax",
-						data : {
-							chked_val : chked_val,
-							chked_state : chked_state,
-							sRow : lastRow+1
-						},
-						success : function(data) {
-							data = data.trim();
-							$(".load-more").remove();
-							$("#search-result").append(data);
-						}
-					});
-				});
 		});
 	});
 </script>

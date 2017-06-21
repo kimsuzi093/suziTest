@@ -18,6 +18,10 @@ public class BasicMovieDAO {
 	public int insert(BasicMovieDTO basicMovieDTO) throws Exception{
 		return sqlSession.insert(MAPPER_NAME+"insert", basicMovieDTO);
 	}
+	// 독립영화 INSERT
+	public int lowPriceInsert(BasicMovieDTO basicMovieDTO) throws Exception{
+		return sqlSession.insert(MAPPER_NAME+"lowPriceInsert", basicMovieDTO);
+	}
 	// 영화 리스트 뽑아오기
 	public List<BasicMovieDTO> list(Map<String, Object> map) throws Exception{
 		return sqlSession.selectList(MAPPER_NAME+"list", map);
@@ -29,6 +33,10 @@ public class BasicMovieDAO {
 	// totalCount
 	public int totalCount(Map<String, Object> map) throws Exception{
 		return sqlSession.selectOne(MAPPER_NAME+"totalCount", map);
+	}
+	// view
+	public BasicMovieDTO view(int num) throws Exception{
+		return sqlSession.selectOne(MAPPER_NAME+"view", num);
 	}
 	
 }

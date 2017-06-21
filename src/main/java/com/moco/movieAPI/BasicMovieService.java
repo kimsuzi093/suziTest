@@ -16,6 +16,10 @@ public class BasicMovieService {
 	public int insert(BasicMovieDTO basicMovieDTO) throws Exception{
 		return basicMovieDAO.insert(basicMovieDTO);
 	}
+	// 독립영화 INSERT
+	public int lowPriceInsert(BasicMovieDTO basicMovieDTO) throws Exception{
+		return basicMovieDAO.lowPriceInsert(basicMovieDTO);
+	}
 	// 영화 리스트 뽑아오기
 	public List<BasicMovieDTO> list(Map<String, Object> map) throws Exception{
 		return basicMovieDAO.list(map);
@@ -27,5 +31,9 @@ public class BasicMovieService {
 	// totalCount
 	public int totalCount(Map<String, Object> map) throws Exception{
 		return basicMovieDAO.totalCount(map);
+	}
+	// view
+	public BasicMovieDTO view(int num) throws Exception{
+		return basicMovieDAO.view(num);
 	}
 }

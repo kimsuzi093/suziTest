@@ -34,14 +34,40 @@
 </style>
 <script type="text/javascript">
 	$(function(){
+		// 검색 
+		var title="";
+		var genre="";
+		var yearMin=0;
+		var yearMax=0;
+		var director="";
+		var actor="";
+		var nation="";
+		var curPage=1;
+		// 첫 로딩
+		searchAjax(title, genre, yearMin, yearMax, director, actor, nation, curPage);
+		// 검색
 		$("#searchBtn").click(function(){
-			var title = $("#title").val();
-			var genre = $("#genre").val();
-			var yearMin = $("#yearMin").val();
-			var yearMax = $("#yearMax").val();
-			var director = $("#director").val();
-			var actor = $("#actor").val();
-			var nation = $("#nation").val();
+			title = $("#title").val();
+			genre = $("#genre").val();
+			yearMin = $("#yearMin").val();
+			yearMax = $("#yearMax").val();
+			director = $("#director").val();
+			nation = $("#nation").val();
+			actor = $("#actor").val();
+			searchAjax(title, genre, yearMin, yearMax, director, actor, nation, curPage);
+		});
+		// 페이징
+		$("#searchResult").on('click','.go',function(){
+			var curPage = $(this).attr("id");
+			searchAjax(title, genre, yearMin, yearMax, director, actor, nation, curPage);
+		});
+		// view
+		$("#searchResult").on('click','.searchResultWrap',function(){
+			var num = $(this).attr("id");
+			location.href="./movieView?num="+num;
+		});
+		// ajax function
+		function searchAjax(title, genre, yearMin, yearMax, director, actor, nation, curPage){
 			$.ajax({
 				url : "./movieSearch",
 				type : "POST",
@@ -52,13 +78,14 @@
 					yearMax : yearMax,
 					director : director,
 					actor : actor,
-					nation : nation
+					nation : nation,
+					curPage : curPage
 				},
 				success : function(data) {
-					$(".searchResult").html(data);
+					$("#searchResult").html(data);
 				}
 			});
-		});
+		}
 	});
 </script>
 </head>
@@ -124,7 +151,7 @@
 		<input type="button" value="검색" id="searchBtn">
 	</div>
 	<!-- RESULT -->
-	<div class="searchResult">
+	<div id="searchResult">
 		
 	</div>
 </body>

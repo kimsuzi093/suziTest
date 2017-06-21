@@ -15,6 +15,17 @@
 		#{story}, #{thumnail}, #{keyword}, 0)
 	</insert>
 	
+	<!-- 독립영화 INSERT -->
+	<insert id="lowPriceInsert" parameterType="basicMovieDTO">
+		insert into lowpricemovie(num,
+		title, eng_title, genre, director, actor, year, nation, trailer,
+		pub_date, watching_rate, play_time, story, thumnail, keyword,
+		user_rating)
+		values(LOWPRICEMOVIE_SEQ.nextval, #{title}, #{eng_title}, #{genre}, #{director}, #{actor}, #{year},
+		#{nation}, #{trailer}, #{pub_date}, #{watching_rate}, #{play_time},
+		#{story}, #{thumnail}, #{keyword}, 0)
+	</insert>
+	
 	<!-- 검색 LIST뽑아오기 -->
 	<select id="list" parameterType="java.util.Map" resultType="basicMovieDTO">
 		select * from
@@ -70,5 +81,10 @@
 	<!-- NATION 리스트 -->
 	<select id="nationList" resultType="String">
 		select distinct nation from basicmovie order by nation
+	</select>
+	
+	<!-- view -->
+	<select id="view" parameterType="int" resultType="basicMovieDTO">
+		select * from basicmovie where num=#{num}
 	</select>
 </mapper>
