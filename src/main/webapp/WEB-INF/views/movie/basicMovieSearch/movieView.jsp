@@ -9,12 +9,19 @@
 <script type="text/javascript">
 	$(function(){
 		var num = $("#movieInfo").attr("title");
-		// 처음 줄거리 로딩
-		loadStory(num);
-		// 예고편
-		function loadTrailer(num){
+		var story_url = "./movieView_story";
+		var trailer_url = "./movieView_trailer";
+
+		if(${kind=='story'}){
+			load(story_url, num);
+		}else{
+			load(trailer_url, num);
+		}
+		
+		// load function
+		function load(url, num){
 			$.ajax({
-				url : "./movieView_trailer",
+				url : url,
 				type : "GET",
 				data : {
 					num: num
@@ -24,19 +31,122 @@
 				}
 			});
 		}
-		// 줄거리
-		function loadStory(num){
-			$.ajax({
-				url : "./movieView_story",
-				type : "GET",
-				data : {
-					num: num
+		
+		// 후기 AJAX
+		var boardKind = $("#boardKind").val();
+		var boardNum = $("#boardNum").val();
+		var curPage = 1;
+		// viewCheckButton
+		$("#reviewResult").on("click","#viewCheckButton",function(){
+			var id = '${memberDTO.id}';
+			$.post("../review/viewCheckClick",
+				{
+					id : id,
+					boardKind : boardKind,
+					boardNum : boardNum
 				},
-				success : function(data) {
-					$("#middleWrap").html(data);
-				}
+				function(data){
+					$("#reviewResult").html(data);
+				});
+		});
+		// review-list
+		$("#reviewView").click(function() {
+			$.post("../review/reviewList",
+				{
+					curPage : curPage,
+					boardKind : boardKind,
+					boardNum : boardNum
+				},
+				function(data){
+					$("#reviewResult").html(data);
+				});
+		});
+		// review-pageing
+		$("#reviewResult").on("click",".go",function(){
+			curPage=$(this).attr("id");
+			$.post("../review/reviewList",
+				{
+					curPage : curPage,
+					boardKind : boardKind,
+					boardNum : boardNum
+				},
+				function(data){
+				$("#reviewResult").html(data);
 			});
-		}
+		});
+		// review-write
+		$("#reviewResult").on("click", "#reviewWrite",function(){
+			var myRating = $("#myRating").val();
+			var writer = $("#reviewWriter").val();
+			var reviewContents = $("#reviewContents").val();
+			$.post("../review/reviewWrite",
+				{
+					myRating : myRating,
+					writer : writer,
+					contents : reviewContents,
+					curPage : curPage,
+					boardKind : boardKind,
+					boardNum : boardNum
+				},
+				function(data){
+					$("#reviewResult").html(data);
+				});
+		});
+		// reviewDelete
+		$("#reviewResult").on("click",".reviewDelete",function(){
+			var num = $(this).attr("id");
+			alert(num);
+			$.post("../review/reviewDelete",
+				{
+					num : num,
+					curPage : curPage,
+					boardKind : boardKind,
+					boardNum : boardNum
+				},
+				function(data){
+					$("#reviewResult").html(data);
+				});
+		});
+		// review-update - get
+		$("#reviewResult").on("click",".reviewUpdate",function(){
+			var num = $(this).attr("id"); 
+			$.get("../review/reivewUpdate?num="+num+"&boardKind="+boardKind+"&boardNum="+boardNum+"&curPage="+curPage,
+				function(data){
+					$("#reviewResult").html(data);
+			});
+		});
+		// review-update - post
+		$("#reviewResult").on("click","#reviewUpdate",function(){
+			var num = $("#reviewUpdateNum").val();
+			var myRating = $("#reviewUpdateMyRating").val();
+			var contents = $("#reviewUpdateContents").val();
+			var writer = $("#reviewUpdateWriter").val();
+			$.post("../review/reivewUpdate",
+				{
+					num : num,
+					myRating : myRating,
+					writer : writer,
+					contents : contents,
+					curPage : curPage,
+					boardKind : boardKind,
+					boardNum : boardNum
+				},
+				function(data){
+					$("#reviewResult").html(data);
+				});
+		});
+		// reviewUpdateCancel
+		$("#reviewResult").on("click","#reviewUpdateCancel",function(){
+			$.post("../review/reviewList",
+				{
+					curPage : curPage,
+					boardKind : boardKind,
+					boardNum : boardNum
+				},
+				function(data){
+					$("#reviewResult").html(data);
+				});
+		});
 		
 	});
 </script>
@@ -50,7 +160,7 @@
 	}
 	#middleWrap{
 		width: 900px;
-		height: 400px;
+		height: 520px;
 		border-bottom: 1px solid #cccccc;
 	}
 	#thumnailImg{
@@ -72,12 +182,31 @@
 		float: left;
 	}
 	.middle{
-		height: 350px;
+		height: 100%;
 	}
+	.middle video{
+		width: 100%;
+		height: 100%;
+	}
+	/* 별점 */
+	.star-rating{ 
+		width: 100px; 
+	}
+	.star-rating,.star-rating span{ 
+		display:inline-block; 
+		height:19px; 
+		overflow:hidden; 
+		background:url(../../resources/images/star.png)no-repeat; 
+	}
+	.star-rating span{ 
+		background-position:left bottom; 
+		line-height:0; 
+		vertical-align:top; 
+	}
+	
 </style>
 </head>
 <body>
-	<h2>MovieView</h2>
 	<div id="topWrap">
 		<div id="thumnailImg">
 			<img src="${movieDTO.thumnail }">
@@ -85,7 +214,10 @@
 		<div id="movieInfo" title="${movieDTO.num }">
 			<p>${movieDTO.title }</p>
 			<p>${movieDTO.eng_title }</p>
-			<p>${movieDTO.user_rating }/10 (-명 참여)</p>
+			<span class="star-rating">
+				<span style="width: ${movieDTO.user_rating }%"></span>
+			</span>
+			<span>${movieDTO.user_rating }/10 (-명 참여)</span>
 			<p><strong>개요</strong> ${movieDTO.genre } | ${movieDTO.nation } | ${movieDTO.play_time } | ${movieDTO.pub_date }개봉</p>
 			<p><strong>감독</strong> ${movieDTO.director }</p>
 			<p><strong>주연</strong> ${movieDTO.actor }</p>
@@ -93,5 +225,10 @@
 		</div>
 	</div>
 	<div id="middleWrap"></div>
+	<!-- 댓글 -->
+	<button id="reviewView" class="btn">후기 보기</button>
+	<input type="hidden" value="basicMovie" id="boardKind">
+	<input type="hidden" value="${movieDTO.num}" id="boardNum">
+	<div id="reviewResult" class="container"></div>
 </body>
 </html>

@@ -98,14 +98,17 @@ public class BasicMovieController {
 	}
 	// view
 	@RequestMapping(value = "movieView", method = RequestMethod.GET)
-	public void movieView(int num, Model model){
+	public void movieView(int num, String kind, Model model){
+		if(kind==null){
+			kind="story";
+		}
 		BasicMovieDTO basicMovieDTO = new BasicMovieDTO();
 		try {
 			basicMovieDTO = basicMovieService.view(num);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("movieDTO", basicMovieDTO);
+		model.addAttribute("movieDTO", basicMovieDTO).addAttribute("kind", kind);
 	}
 	// view_story
 	@RequestMapping(value = "movieView_story", method = RequestMethod.GET)

@@ -90,6 +90,7 @@
 </script>
 </head>
 <body>
+<a href="./movieRecommend/recommendHome">RECOMMEND PAGE</a>
 	<h2>MovieSearch</h2>
 	<!-- SEARCH -->
 	<div id="searchForm">
