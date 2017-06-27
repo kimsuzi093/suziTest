@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 	$(function(){
-		// 처음 로딩히 recommendSubCriteria display none.
+		// 처음 로딩시 recommendSubCriteria display none.
 		display_none();
 		
 		// 장르별 추천영화
@@ -137,7 +137,7 @@
 <body>
 	<div id="recommendCriteria">
 		<button id="genreRecommend" class="btn">장르별 추천영화</button>
-		<button id="yearRecommend" class="btn">연도별 추천영화</button>
+		<button id="yearRecommend" class="btn">년도별 추천영화</button>
 		<button id="direcotrRecommend" class="btn">감독별 추천영화</button>
 		<button id="ageRecommend" class="btn">나이별 추천영화</button>
 		<button id="weatherRecommend" class="btn">오늘날씨 추천영화</button>
@@ -149,25 +149,26 @@
 	</div>
 	<div id="recommendSubCriteria">
 		<div id="ageWrap">
-			<button class="btn btn-default age" id="age10">10대</button>
-			<button class="btn btn-default age" id="age20">20대</button>
-			<button class="btn btn-default age" id="age30">30대</button>
-			<button class="btn btn-default age" id="age40">40대</button>
-			<button class="btn btn-default age" id="age50">50대 이상</button>
+			<button class="btn btn-default age" id="10">10대</button>
+			<button class="btn btn-default age" id="20">20대</button>
+			<button class="btn btn-default age" id="30">30대</button>
+			<button class="btn btn-default age" id="40">40대</button>
+			<button class="btn btn-default age" id="50">50대 이상</button>
 		</div>
 		<div id="yearWrap">
-			<button class="btn btn-default year" id="year1960">1960년대</button>
-			<button class="btn btn-default year" id="year1970">1970년대</button>
-			<button class="btn btn-default year" id="year1980">1980년대</button>
-			<button class="btn btn-default year" id="year1990">1990년대</button>
-			<button class="btn btn-default year" id="year2000">2000년대</button>
-			<button class="btn btn-default year" id="year2010">2010년대</button>
+			<button class="btn btn-default year" id="1950">1960년대 이전</button>
+			<button class="btn btn-default year" id="1960">1960년대</button>
+			<button class="btn btn-default year" id="1970">1970년대</button>
+			<button class="btn btn-default year" id="1980">1980년대</button>
+			<button class="btn btn-default year" id="1990">1990년대</button>
+			<button class="btn btn-default year" id="2000">2000년대</button>
+			<button class="btn btn-default year" id="2010">2010년대</button>
 		</div>
 		<div id="groupWrap">
-			<button class="btn btn-default group" id="groupCouple">커플끼리</button>
-			<button class="btn btn-default group" id="groupFamily">가족끼리</button>
-			<button class="btn btn-default group" id="groupFriend">친구끼리</button>
-			<button class="btn btn-default group" id="groupAlone">혼자</button>
+			<button class="btn btn-default group" id="couple">커플끼리</button>
+			<button class="btn btn-default group" id="family">가족끼리</button>
+			<button class="btn btn-default group" id="friend">친구끼리</button>
+			<button class="btn btn-default group" id="alone">혼자</button>
 		</div>
 		<div id="genreWrap">
 			<select id="genre">
