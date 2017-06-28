@@ -4,11 +4,58 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="BasicMovieRecommendMapper">
-	<select id="genreList" parameterType="java.util.Map" resultType="basicMovieDTO">
+	<select id="movieList" parameterType="java.util.Map" resultType="basicMovieDTO">
 		select * from basicMovie 
-		<if test="genre neq 'all'">
-			where genre like '%'||#{genre}||'%' 
+		<!-- 장르별 -->
+		<if test="genre neq null">
+			<if test="genre neq 'all'">
+				where genre like '%'||#{genre}||'%' 
+			</if>
+			order by user_rating desc
 		</if>
-		order by user_rating desc
+		<!-- 년도별 -->
+		<if test="year neq null">
+			<if test="year eq '1950'">
+				where year <![CDATA[ < 1960]]> 
+			</if>
+			<if test="year neq '1950'">
+				where year between #{year} and #{year}+10 
+			</if>
+			order by user_rating desc
+		</if>
+		<!-- group -->
+		<if test="group neq null">
+			<if test="group eq 'couple'">
+				where genre like '%뮤지컬%' 
+				or genre like '%로맨스%'
+				or genre like '%코미디%'
+			</if>
+			<if test="group eq 'friend'">
+				where genre like '%미스터리%'
+				or genre like '%코미디%'
+				or genre like '%전쟁%'
+				or genre like '%액션%'
+			</if>
+			<if test="group eq 'family'">
+				where genre like '%판타지%'
+				or genre like '%어드벤처%'
+				or genre like '%코미디%'
+				or genre like '%가족%'
+				or genre like '%애니메이션%'
+			</if>
+			<if test="group eq 'alone'">
+				where genre like '%공포%' 
+				or genre like '%스릴러%' 
+				or genre like '%범죄%' 
+				or genre like '%SF%' 
+				or genre like '%액션%'
+			</if>
+		</if>
+	</select>
+	<!-- director list -->
+	<select id="directorList" resultType="com.moco.movieAPI.movieRecommend.DirectorDTO">
+		select director, AVG(user_rating) avr 
+			from basicmovie where user_rating>0 
+			group by director order by avr desc
 	</select>
 </mapper>

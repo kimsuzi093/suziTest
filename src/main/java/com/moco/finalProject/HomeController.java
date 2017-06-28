@@ -19,6 +19,7 @@ import com.moco.member.MemberDTO;
 import com.moco.movieAPI.BasicMovieDTO;
 import com.moco.movieAPI.BasicMovieService;
 import com.moco.movieAPI.Json.JsonMain;
+import com.moco.movieAPI.movieRecommend.weather.Getweather;
 
 /**
  * Handles requests for the application home page.
@@ -45,6 +46,9 @@ public class HomeController {
 		MemberDTO memberDTO = new MemberDTO();
 		memberDTO.setId("suzi");
 		session.setAttribute("memberDTO", memberDTO);
+		
+		Getweather getweather = new Getweather();
+		getweather.getWeather();
 		
 		return "home";
 	}

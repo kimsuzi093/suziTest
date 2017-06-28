@@ -16,8 +16,13 @@ public class RecommendDAO {
 	SqlSession sqlSession;
 	private final String MAPPER_NAME = "BasicMovieRecommendMapper.";
 	
-	// 장르별 추천 영화
+	// 추천 영화
 	public List<BasicMovieDTO> genreList(Map<String, Object> map) throws Exception {
-		return sqlSession.selectList(MAPPER_NAME+"genreList", map);
+		return sqlSession.selectList(MAPPER_NAME+"movieList", map);
+	}
+	
+	// director list
+	public List<DirectorDTO> directorList() throws Exception{
+	return sqlSession.selectList(MAPPER_NAME+"directorList");
 	}
 }
