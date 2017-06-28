@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+
+section{
+	width: 100%;
+	margin: 0px auto;
+	min-height: 800px;
+	height: auto;
+}

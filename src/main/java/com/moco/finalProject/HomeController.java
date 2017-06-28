@@ -43,10 +43,6 @@ public class HomeController {
 
 		model.addAttribute("serverTime", formattedDate );
 		
-		MemberDTO memberDTO = new MemberDTO();
-		memberDTO.setId("suzi");
-		session.setAttribute("memberDTO", memberDTO);
-		
 		Getweather getweather = new Getweather();
 		getweather.getWeather();
 		
