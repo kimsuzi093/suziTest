@@ -14,6 +14,10 @@ public class ReviewDAO {
 	private SqlSession sqlSession; 
 	private static final String NAMESPACE = "ReviewMapper.";
 	
+	//reviewCheck
+	public ReviewDTO reviewCheck(ReviewDTO reviewDTO) throws Exception{
+		return sqlSession.selectOne(NAMESPACE+"reviewCheck", reviewDTO);
+	}
 	// reviewSelectList
 	public List<ReviewDTO> reviewSelectList(Map<String, Object> map) throws Exception{
 		return sqlSession.selectList(NAMESPACE+"reviewSelectList", map);

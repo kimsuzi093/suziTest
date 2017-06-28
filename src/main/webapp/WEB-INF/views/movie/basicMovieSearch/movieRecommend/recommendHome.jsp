@@ -101,6 +101,12 @@
 				}
 			});
 		}
+		
+		// 영화 상세 보기
+		$("#recommendResult").on('click','.recommendContents',function(){
+			var num = $(this).attr("id");
+			location.href="../movieView?num="+num;
+		});
 	});
 </script>
 <style>
@@ -145,7 +151,7 @@
 		<button id="myRecommend" class="btn">내가 본 영화와 비슷한 영화</button>
 		<button id="reviewRecommend" class="btn">리뷰가 많은 영화</button>
 		<button id="jjimRecommend" class="btn">찜하기가 많은 영화</button>
-		<button id="recentRecommend" class="btn">가장 최근 영화</button>
+		<button id="recentRecommend" class="btn">개봉 예정 영화</button>
 	</div>
 	<div id="recommendSubCriteria">
 		<div id="ageWrap">

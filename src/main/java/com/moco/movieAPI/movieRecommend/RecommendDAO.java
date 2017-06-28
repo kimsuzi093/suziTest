@@ -9,6 +9,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.moco.movieAPI.BasicMovieDTO;
+import com.moco.movieAPI.movieRecommend.subDTO.DirectorDTO;
+import com.moco.movieAPI.movieRecommend.subDTO.JjimRankDTO;
+import com.moco.movieAPI.movieRecommend.subDTO.ReviewRankDTO;
 
 @Repository
 public class RecommendDAO {
@@ -23,6 +26,21 @@ public class RecommendDAO {
 	
 	// director list
 	public List<DirectorDTO> directorList() throws Exception{
-	return sqlSession.selectList(MAPPER_NAME+"directorList");
+		return sqlSession.selectList(MAPPER_NAME+"directorList");
+	}
+	
+	// review list
+	public List<ReviewRankDTO> reviewList() throws Exception{
+		return sqlSession.selectList(MAPPER_NAME+"reviewRankList");
+	}
+	
+	// jjim list
+	public List<JjimRankDTO> jjimRankList() throws Exception{
+		return sqlSession.selectList(MAPPER_NAME+"jjimRankList");
+	}
+	
+	// recent list
+	public List<BasicMovieDTO> recentList() throws Exception {
+		return sqlSession.selectList(MAPPER_NAME+"recentList");
 	}
 }

@@ -34,6 +34,7 @@
 		<where>
 			<if test="searchDTO.title neq null">
 				and title like '%'||#{searchDTO.title}||'%' 
+				or eng_title like '%'||#{searchDTO.title}||'%' 
 			</if>
 			<if test="searchDTO.genre neq null">
 				and genre like '%'||#{searchDTO.genre}||'%' 
@@ -87,4 +88,19 @@
 	<select id="view" parameterType="int" resultType="basicMovieDTO">
 		select * from basicmovie where num=#{num}
 	</select>
+	
+	<!-- 찜하기 확인 -->
+	<select id="jjimCheck" parameterType="com.moco.jjim.JjimDTO" resultType="com.moco.jjim.JjimDTO">
+		select * from jjim where id=#{id} and bnum=#{bNum}
+	</select>
+	
+	<!-- 찜하기 INSERT -->
+	<insert id="jjimInsert" parameterType="com.moco.jjim.JjimDTO">
+		insert into jjim values(#{id}, #{bNum}, 0)
+	</insert>
+	
+	<!-- 찜하기 DELETE -->
+	<delete id="jjimDelete" parameterType="com.moco.jjim.JjimDTO">
+		delete jjim where id=#{id} and bnum=#{bNum}
+	</delete>
 </mapper>

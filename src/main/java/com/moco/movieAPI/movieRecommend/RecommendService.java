@@ -8,6 +8,9 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.moco.movieAPI.BasicMovieDTO;
+import com.moco.movieAPI.movieRecommend.subDTO.DirectorDTO;
+import com.moco.movieAPI.movieRecommend.subDTO.JjimRankDTO;
+import com.moco.movieAPI.movieRecommend.subDTO.ReviewRankDTO;
 
 @Service
 public class RecommendService {
@@ -25,4 +28,18 @@ public class RecommendService {
 		return recommendDAO.directorList();
 	}
 
+	// review list
+	public List<ReviewRankDTO> reviewList() throws Exception{
+		return recommendDAO.reviewList();
+	}
+
+	// jjim list
+	public List<JjimRankDTO> jjimRankList() throws Exception{
+		return recommendDAO.jjimRankList();
+	}
+
+	// recent list
+	public List<BasicMovieDTO> recentList() throws Exception {
+		return recommendDAO.recentList();
+	}
 }

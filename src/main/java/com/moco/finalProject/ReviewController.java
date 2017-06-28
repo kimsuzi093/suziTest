@@ -28,6 +28,7 @@ public class ReviewController {
 
 	// list를 위한
 	public void forList(HttpSession session, Integer curPage, String boardKind, int boardNum, Model model) throws Exception{
+		System.out.println("Review list");
 		if(curPage == null){
 			curPage = 1;
 		}
@@ -38,7 +39,10 @@ public class ReviewController {
 		// viewCheck
 		ViewCheckDTO viewCheckDTO = viewCheckService.viewCheckDTOSet(boardKind, boardNum, ((MemberDTO)session.getAttribute("memberDTO")).getId());
 		model.addAttribute("viewCheck", viewCheckService.viewCheck(viewCheckDTO));
-
+		
+		// reviewCheck
+		model.addAttribute("reviewCheck", reviewService.reviewCheck(session, boardKind, boardNum));
+		
 		// list 불러오기
 		List<ReviewDTO> ar = reviewService.reviewSelectList(curPage, boardKind, boardNum);
 		model.addAttribute("reviewList", ar);
@@ -114,6 +118,7 @@ public class ReviewController {
 		
 		return "movie/review/reviewResult";
 	}
+	
 	// update - post
 	@RequestMapping(value="reivewUpdate", method=RequestMethod.POST)
 	public String reivewUpdate(HttpSession session, Integer curPage, ReviewDTO reviewDTO, String boardKind, int boardNum, Model model) throws Exception{

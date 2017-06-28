@@ -1,4 +1,4 @@
-package com.moco.movieAPI.movieRecommend;
+package com.moco.movieAPI.movieRecommend.subDTO;
 
 public class DirectorDTO {
 	private String director;

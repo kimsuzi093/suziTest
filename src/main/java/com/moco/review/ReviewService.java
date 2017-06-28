@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.moco.member.MemberDTO;
 import com.moco.util.PageMaker;
 import com.moco.util.PageResult;
 import com.moco.util.RowMaker;
@@ -37,9 +40,30 @@ public class ReviewService {
 		// totalCount method를 호출 하기 위해서 ReviewDTO를 생성
 		ReviewDTO reviewDTO = this.reviewDTOSet(boardKind, boardNum);
 		int totalCount = this.reviewTotalCount(reviewDTO);
-		System.out.println("totalCount : "+totalCount);
+		System.out.println("ReviewService>> totalCount : "+totalCount);
 		PageResult pageResult = pageMaker.paging(totalCount);
 		return pageResult;
+	}
+	
+	//reviewCheck
+	public boolean reviewCheck(HttpSession session, String boardKind, int boardNum) throws Exception{
+		// 후기를 안남겼다면 false, 남겼다면 true
+		boolean check = false;
+		// DTO 셋팅
+		// bnum, lnum
+		ReviewDTO reviewDTO = this.reviewDTOSet(boardKind, boardNum);
+		// id
+		String writer = ((MemberDTO)session.getAttribute("memberDTO")).getId();
+		reviewDTO.setWriter(writer);
+		
+		// check!
+		reviewDTO = reviewDAO.reviewCheck(reviewDTO);
+		
+		if(reviewDTO != null){
+			check = !check;
+		}
+		
+		return check;
 	}
 	
 	// reviewSelectList

@@ -1,5 +1,7 @@
 package com.moco.finalProject;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.moco.jjim.JjimDTO;
+import com.moco.member.MemberDTO;
 import com.moco.movieAPI.BasicMovieDTO;
 import com.moco.movieAPI.BasicMovieService;
 import com.moco.movieAPI.movieSearch.SearchDTO;
@@ -98,17 +102,22 @@ public class BasicMovieController {
 	}
 	// view
 	@RequestMapping(value = "movieView", method = RequestMethod.GET)
-	public void movieView(int num, String kind, Model model){
+	public void movieView(int num, String kind, Model model, HttpSession session){
 		if(kind==null){
 			kind="story";
 		}
 		BasicMovieDTO basicMovieDTO = new BasicMovieDTO();
+		JjimDTO jjimDTO = null;
 		try {
 			basicMovieDTO = basicMovieService.view(num);
+			JjimDTO testJjim = new JjimDTO();
+			testJjim.setbNum(num);
+			testJjim.setId(((MemberDTO)session.getAttribute("memberDTO")).getId());
+			jjimDTO = basicMovieService.jjimCheck(testJjim);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("movieDTO", basicMovieDTO).addAttribute("kind", kind);
+		model.addAttribute("movieDTO", basicMovieDTO).addAttribute("kind", kind).addAttribute("jjimDTO", jjimDTO);
 	}
 	// view_story
 	@RequestMapping(value = "movieView_story", method = RequestMethod.GET)
@@ -131,5 +140,21 @@ public class BasicMovieController {
 			e.printStackTrace();
 		}
 		model.addAttribute("movieDTO", basicMovieDTO);
+	}
+	// 찜하기
+	@RequestMapping(value = "jjim", method = RequestMethod.GET)
+	public void jjim(boolean flag, int bNum, HttpSession session){
+		JjimDTO jjimDTO = new JjimDTO();
+		jjimDTO.setId(((MemberDTO)session.getAttribute("memberDTO")).getId());
+		jjimDTO.setbNum(bNum);
+		try{
+			if(flag){
+				basicMovieService.jjimInsert(jjimDTO);
+			}else{
+				basicMovieService.jjimDelete(jjimDTO);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }

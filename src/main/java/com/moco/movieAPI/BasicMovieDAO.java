@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
 
+import com.moco.jjim.JjimDTO;
+
 @Component
 public class BasicMovieDAO {
 	@Inject
@@ -38,5 +40,16 @@ public class BasicMovieDAO {
 	public BasicMovieDTO view(int num) throws Exception{
 		return sqlSession.selectOne(MAPPER_NAME+"view", num);
 	}
-	
+	// 찜하기 확인
+	public JjimDTO jjimCheck(JjimDTO jjimDTO) throws Exception{
+		return sqlSession.selectOne(MAPPER_NAME+"jjimCheck", jjimDTO);
+	}
+	// 찜하기 INSERT
+	public int jjimInsert(JjimDTO jjimDTO) throws Exception{
+		return sqlSession.insert(MAPPER_NAME+"jjimInsert", jjimDTO);
+	}
+	// 찜하기 DELETE
+	public int jjimDelete(JjimDTO jjimDTO) throws Exception{
+		return sqlSession.delete(MAPPER_NAME+"jjimDelete", jjimDTO);
+	}
 }

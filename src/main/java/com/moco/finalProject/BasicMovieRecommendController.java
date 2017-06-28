@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.moco.movieAPI.BasicMovieDTO;
-import com.moco.movieAPI.movieRecommend.DirectorDTO;
 import com.moco.movieAPI.movieRecommend.RecommendService;
+import com.moco.movieAPI.movieRecommend.subDTO.DirectorDTO;
+import com.moco.movieAPI.movieRecommend.subDTO.JjimRankDTO;
+import com.moco.movieAPI.movieRecommend.subDTO.ReviewRankDTO;
+import com.moco.movieAPI.movieRecommend.weather.Getweather;
 
 @Controller
 @RequestMapping(value="/movie/basicMovieSearch/movieRecommend/")
@@ -32,7 +35,6 @@ public class BasicMovieRecommendController {
 	public void recommendList(String criteria, String subCriteria, Model model){
 		System.out.println(criteria+"/"+subCriteria);
 		List<BasicMovieDTO> movieList = new ArrayList<BasicMovieDTO>(); // 영화 리스트
-		int jjimCount = 0; // 찜하기 갯수
 		Map<String, Object> criteria_map = new HashMap<String, Object>(); // 조건 map
 		Map<String, Object> movie_map = new HashMap<String, Object>(); // 넘겨줄 list map
 		try{
@@ -56,7 +58,15 @@ public class BasicMovieRecommendController {
 			}
 			// 오늘날씨
 			else if(criteria.equals("weather")){
-				
+				Getweather getweather = new Getweather();
+				String sky_code = getweather.getWeather();
+				if(sky_code!=null){
+					if(sky_code.equalsIgnoreCase("SKY_D01") ||sky_code.equalsIgnoreCase("SKY_D02")){
+						criteria_map.put("weather", 0);
+					}else{
+						criteria_map.put("weather", 1);
+					}
+				}
 			}
 			// 그룹별 
 			else if(criteria.equals("group")){
@@ -68,15 +78,18 @@ public class BasicMovieRecommendController {
 			}
 			// 리뷰 순위
 			else if(criteria.equals("review")){
-				
+				List<ReviewRankDTO> reviewList = recommendService.reviewList();
+				movie_map.put("reviewList", reviewList);
 			}
 			// 찜하기 순위
 			else if(criteria.equals("jjim")){
-				
+				List<JjimRankDTO> jjimList = recommendService.jjimRankList();
+				movie_map.put("jjimList", jjimList);
 			}
 			// 최근 영화
 			else if(criteria.equals("recent")){
-				
+				List<BasicMovieDTO> recentList = recommendService.recentList();
+				movie_map.put("recentList", recentList);
 			}
 			movieList = recommendService.genreList(criteria_map);
 			movie_map.put("movieList", movieList);

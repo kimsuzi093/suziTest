@@ -7,6 +7,8 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.moco.jjim.JjimDTO;
+
 @Service
 public class BasicMovieService {
 	@Inject
@@ -35,5 +37,17 @@ public class BasicMovieService {
 	// view
 	public BasicMovieDTO view(int num) throws Exception{
 		return basicMovieDAO.view(num);
+	}
+	// 찜하기 확인
+	public JjimDTO jjimCheck(JjimDTO jjimDTO) throws Exception{
+		return basicMovieDAO.jjimCheck(jjimDTO);
+	}
+	// 찜하기 INSERT
+	public int jjimInsert(JjimDTO jjimDTO) throws Exception{
+		return basicMovieDAO.jjimInsert(jjimDTO);
+	}
+	// 찜하기 DELETE
+	public int jjimDelete(JjimDTO jjimDTO) throws Exception{
+		return basicMovieDAO.jjimDelete(jjimDTO);
 	}
 }

@@ -8,35 +8,12 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 	$(function(){
-		var num = $("#movieInfo").attr("title");
-		var story_url = "./movieView_story";
-		var trailer_url = "./movieView_trailer";
-
-		if(${kind=='story'}){
-			load(story_url, num);
-		}else{
-			load(trailer_url, num);
-		}
 		
-		// load function
-		function load(url, num){
-			$.ajax({
-				url : url,
-				type : "GET",
-				data : {
-					num: num
-				},
-				success : function(data) {
-					$("#middleWrap").html(data);
-				}
-			});
-		}
-		
-		// 후기 AJAX
 		var boardKind = $("#boardKind").val();
 		var boardNum = $("#boardNum").val();
 		var curPage = 1;
-		// viewCheckButton
+		
+		// viewCheck
 		$("#reviewResult").on("click","#viewCheckButton",function(){
 			var id = '${memberDTO.id}';
 			$.post("../review/viewCheckClick",
@@ -49,8 +26,8 @@
 					$("#reviewResult").html(data);
 				});
 		});
+		
 		// review-list
-		$("#reviewView").click(function() {
 			$.post("../review/reviewList",
 				{
 					curPage : curPage,
@@ -60,7 +37,7 @@
 				function(data){
 					$("#reviewResult").html(data);
 				});
-		});
+		
 		// review-pageing
 		$("#reviewResult").on("click",".go",function(){
 			curPage=$(this).attr("id");
@@ -74,9 +51,45 @@
 				$("#reviewResult").html(data);
 			});
 		});
+		
+		// star
+		$("#reviewResult").on("click",".reviewStar",function(){
+			var star = $(this).attr("id");
+			if(star == 'one'){
+				$("#reviewStarResult").html('<i class="fa fa-star-half-full" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 1점');
+				$("#reviewStarHidden").val(1);
+			}else if(star =='two'){
+				$("#reviewStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 2점');
+				$("#reviewStarHidden").val(2);
+			}else if(star =='three'){
+				$("#reviewStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-half-full" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 3점');
+				$("#reviewStarHidden").val(3);
+			}else if(star == 'four'){
+				$("#reviewStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 4점');
+				$("#reviewStarHidden").val(4);
+			}else if(star == 'five'){
+				$("#reviewStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-half-full" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 5점');
+				$("#reviewStarHidden").val(5);
+			}else if(star == 'six'){
+				$("#reviewStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 6점');
+				$("#reviewStarHidden").val(6);
+			}else if(star == 'seven'){
+				$("#reviewStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-half-full" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 7점');
+				$("#reviewStarHidden").val(7);
+			}else if(star == 'eight'){
+				$("#reviewStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 8점');
+				$("#reviewStarHidden").val(8);
+			}else if(star == 'nine'){
+				$("#reviewStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-half-full" style="font-size:20px"></i> 9점');
+				$("#reviewStarHidden").val(9);
+			}else if(star == 'ten'){
+				$("#reviewStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i> 10점');
+				$("#reviewStarHidden").val(10);
+			}
+		});
 		// review-write
 		$("#reviewResult").on("click", "#reviewWrite",function(){
-			var myRating = $("#myRating").val();
+			var myRating = $("#reviewStarHidden").val();
 			var writer = $("#reviewWriter").val();
 			var reviewContents = $("#reviewContents").val();
 			$.post("../review/reviewWrite",
@@ -95,7 +108,6 @@
 		// reviewDelete
 		$("#reviewResult").on("click",".reviewDelete",function(){
 			var num = $(this).attr("id");
-			alert(num);
 			$.post("../review/reviewDelete",
 				{
 					num : num,
@@ -115,10 +127,45 @@
 					$("#reviewResult").html(data);
 			});
 		});
+		// star
+		$("#reviewResult").on("click",".reviewUpdateStar",function(){
+			var star = $(this).attr("id");
+			if(star == 'one_'){
+				$("#reviewUpdateStarResult").html('<i class="fa fa-star-half-full" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 1점');
+				$("#updateMyRating").val(1);
+			}else if(star =='two_'){
+				$("#reviewUpdateStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 2점');
+				$("#updateMyRating").val(2);
+			}else if(star =='three_'){
+				$("#reviewUpdateStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-half-full" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 3점');
+				$("#updateMyRating").val(3);
+			}else if(star == 'four_'){
+				$("#reviewUpdateStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 4점');
+				$("#updateMyRating").val(4);
+			}else if(star == 'five_'){
+				$("#reviewUpdateStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-half-full" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 5점');
+				$("#updateMyRating").val(5);
+			}else if(star == 'six_'){
+				$("#reviewUpdateStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 6점');
+				$("#updateMyRating").val(6);
+			}else if(star == 'seven_'){
+				$("#reviewUpdateStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-half-full" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 7점');
+				$("#updateMyRating").val(7);
+			}else if(star == 'eight_'){
+				$("#reviewUpdateStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-o" style="font-size:20px"></i> 8점');
+				$("#updateMyRating").val(8);
+			}else if(star == 'nine_'){
+				$("#reviewUpdateStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star-half-full" style="font-size:20px"></i> 9점');
+				$("#updateMyRating").val(9);
+			}else if(star == 'ten_'){
+				$("#reviewUpdateStarResult").html('<i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i><i class="fa fa-star" style="font-size:20px"></i> 10점');
+				$("#updateMyRating").val(10);
+			}
+		});
 		// review-update - post
 		$("#reviewResult").on("click","#reviewUpdate",function(){
 			var num = $("#reviewUpdateNum").val();
-			var myRating = $("#reviewUpdateMyRating").val();
+			var myRating = $("#updateMyRating").val();
 			var contents = $("#reviewUpdateContents").val();
 			var writer = $("#reviewUpdateWriter").val();
 			$.post("../review/reivewUpdate",
@@ -148,6 +195,63 @@
 				});
 		});
 		
+		// 찜하기 체크
+		$(".jjim").css('display','none');
+		if(${jjimDTO==null}){
+			$(".jjimInsert").css('display','block');
+		}else{
+			$(".jjimDelete").css('display','block');
+		}
+		
+		// 줄거리 or 예고편
+		var num = ${movieDTO.num};
+		var story_url = "./movieView_story";
+		var trailer_url = "./movieView_trailer";
+		if(${kind=='story'}){ // 줄거리
+			load(story_url, num);
+		}else{ // 예고편
+			load(trailer_url, num);
+		}
+		
+		// load function. 줄거리/예고편
+		function load(url, num){
+			$.ajax({
+				url : url,
+				type : "GET",
+				data : {
+					num: num
+				},
+				success : function(data) {
+					$("#middleWrap").html(data);
+				}
+			});
+		}
+		// 찜하기 
+		$(".jjimInsert").click(function(){
+			jjim(true,num);
+			$(".jjimInsert").css('display','none');
+			$(".jjimDelete").css('display','block');
+		});
+		// 찜하기 취소
+		$(".jjimDelete").click(function(){
+			jjim(false,num);
+			$(".jjimInsert").css('display','block');
+			$(".jjimDelete").css('display','none');
+		});
+		// 찜 function
+		function jjim(flag, bNum){
+			$.ajax({
+				url : "./jjim",
+				type : "GET",
+				data : {
+					flag : flag, 
+					bNum : bNum
+				},
+				success : function(data) {
+					
+				}
+			});
+		}
 	});
 </script>
 <style type="text/css">
@@ -203,7 +307,22 @@
 		line-height:0; 
 		vertical-align:top; 
 	}
-	
+	.jjim:HOVER{
+		cursor: pointer;
+	}
+	/* 후기쓰기 */
+	.reviewStar{
+    	background-color : rgba(255,255,255);
+    }
+    .reviewStar:hover{
+    	background-color : rgba(192,192,192,0.3);
+    }
+    .reviewUpdateStar{
+    	background-color : rgba(255,255,255);
+    }
+    .reviewUpdateStar:hover{
+    	background-color : rgba(192,192,192,0.3);
+    }
 </style>
 </head>
 <body>
@@ -222,11 +341,12 @@
 			<p><strong>감독</strong> ${movieDTO.director }</p>
 			<p><strong>주연</strong> ${movieDTO.actor }</p>
 			<p><strong>등급</strong> ${movieDTO.watching_rate }</p>
+			<p class="jjim jjimInsert" id="${movieDTO.num }">♡ 찜하기</p>
+			<p class="jjim jjimDelete" id="${movieDTO.num }">♥ 찜하기취소</p>
 		</div>
 	</div>
 	<div id="middleWrap"></div>
 	<!-- 댓글 -->
-	<button id="reviewView" class="btn">후기 보기</button>
 	<input type="hidden" value="basicMovie" id="boardKind">
 	<input type="hidden" value="${movieDTO.num}" id="boardNum">
 	<div id="reviewResult" class="container"></div>
