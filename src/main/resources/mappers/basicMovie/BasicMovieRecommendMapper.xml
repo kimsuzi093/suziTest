@@ -73,10 +73,12 @@
 	</select>
 	<!-- director list -->
 	<select id="directorList" resultType="com.moco.movieAPI.movieRecommend.subDTO.DirectorDTO">
-		select director,
-		AVG(user_rating) avr
-		from basicmovie where user_rating>0
-		group by director order by avr desc
+		select L.director, avg(L.user_rating) avr from (
+		(select rownum, basicmovie.* from basicmovie, (
+		(select * from (
+		(select count(writer) count, bnum from review group by bnum order by count desc) F)
+		where F.count>0) S) where S.bnum=basicmovie.num and rownum<![CDATA[ < 21]]>) L) 
+		group by L.director
 	</select>
 	<!-- review rank -->
 	<select id="reviewRankList" resultType="com.moco.movieAPI.movieRecommend.subDTO.ReviewRankDTO">
