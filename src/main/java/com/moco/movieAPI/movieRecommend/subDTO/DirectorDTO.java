@@ -3,6 +3,7 @@ package com.moco.movieAPI.movieRecommend.subDTO;
 public class DirectorDTO {
 	private String director;
 	private String avr;
+	
 	public String getDirector() {
 		return director;
 	}

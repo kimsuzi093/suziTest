@@ -86,7 +86,7 @@ public class BasicMovieRecommendController {
 						criteria_map.put("weather", 2);
 					}
 				}
-			}
+			} 
 			// 그룹별 
 			else if(criteria.equals("group")){
 				criteria_map.put("group", subCriteria);
