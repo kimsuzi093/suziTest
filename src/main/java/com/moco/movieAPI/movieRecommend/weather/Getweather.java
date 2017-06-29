@@ -22,7 +22,6 @@ public class Getweather {
 			HashMap<String, Object> sky = (HashMap<String, Object>) today.get("sky");
 			sky_name = (String) sky.get("name");
 			sky_code = (String) sky.get("code");
-			System.out.println(sky_name);
 			// name : 맑음, 구름조금, 구름많음, 흐림, 비, 눈, 비 또는 눈
 			// code : SKY_D01, SKY_D02, SKY_D03, SKY_D04, SKY_D05, SKY_D06, SKY_D07
 		} catch (Exception e) {

@@ -26,4 +26,17 @@
     <select id="reviewTotalCount" parameterType="com.moco.review.ReviewDTO" resultType="java.lang.Integer">
     	select count(num) from review where bnum=#{bNum}
     </select>
+    <!-- 각각의 board에 userRating 입력 -->
+    <select id="reviewHuman" parameterType="com.moco.review.ReviewDTO" resultType="java.lang.Integer">
+		select count(num) from review where bnum=#{bNum} and lnum=#{lNum}			    	
+    </select>
+    <select id="reviewUserRating" parameterType="com.moco.review.ReviewDTO" resultType="java.lang.Integer">
+    	select myRating from review where bnum=#{bNum} and lnum=#{lNum}
+    </select>
+    <update id="basicMovieUserRating" parameterType="com.moco.movieAPI.BasicMovieDTO">
+    	update basicMovie set user_rating=#{user_rating} where num=#{num}
+    </update>
+    <!-- <update id="lowPriceMovieUserRating" parameterType="com.moco.lowpricemovie.LowPriceMovieDTO">
+    	update lowpriceMovie set user_rating=#{user_rating} where num=#{num}
+    </update> -->
 </mapper>

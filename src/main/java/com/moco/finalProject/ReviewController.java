@@ -28,7 +28,6 @@ public class ReviewController {
 
 	// list를 위한
 	public void forList(HttpSession session, Integer curPage, String boardKind, int boardNum, Model model) throws Exception{
-		System.out.println("Review list");
 		if(curPage == null){
 			curPage = 1;
 		}
@@ -37,12 +36,16 @@ public class ReviewController {
 		PageResult pageResult = reviewService.pageing(curPage, perPage, boardKind, boardNum);
 
 		// viewCheck
-		ViewCheckDTO viewCheckDTO = viewCheckService.viewCheckDTOSet(boardKind, boardNum, ((MemberDTO)session.getAttribute("memberDTO")).getId());
-		model.addAttribute("viewCheck", viewCheckService.viewCheck(viewCheckDTO));
-		
+		try{
+			ViewCheckDTO viewCheckDTO = viewCheckService.viewCheckDTOSet(boardKind, boardNum, ((MemberDTO)session.getAttribute("memberDTO")).getId());
+			model.addAttribute("viewCheck", viewCheckService.viewCheck(viewCheckDTO));
+		}catch(Exception e){
+			
+		}
+
 		// reviewCheck
 		model.addAttribute("reviewCheck", reviewService.reviewCheck(session, boardKind, boardNum));
-		
+
 		// list 불러오기
 		List<ReviewDTO> ar = reviewService.reviewSelectList(curPage, boardKind, boardNum);
 		model.addAttribute("reviewList", ar);
@@ -58,22 +61,22 @@ public class ReviewController {
 	public String viewCheckClick(HttpSession session, ViewCheckDTO viewCheckDTO, String boardKind, int boardNum, Model model) throws Exception{
 		// DTO 셋팅
 		viewCheckDTO = viewCheckService.viewCheckDTOSet(boardKind, boardNum, viewCheckDTO.getId());
-		
+
 		this.forList(session, 1, boardKind, boardNum, model);
-		
+
 		// viewCheckInsert
 		viewCheckService.viewCheckInsert(viewCheckDTO);
 		model.addAttribute("viewCheck", viewCheckService.viewCheck(viewCheckDTO));
-		
+
 		return "movie/review/reviewResult"; 
 	}
 
 	// list
 	@RequestMapping(value="reviewList", method=RequestMethod.POST)
 	public String reviewSelectList(HttpSession session,Integer curPage, String boardKind, int boardNum, Model model) throws Exception{
-		
+
 		this.forList(session, curPage, boardKind, boardNum, model);
-		
+
 		return "movie/review/reviewResult";
 	}
 
@@ -91,7 +94,16 @@ public class ReviewController {
 
 		// insert
 		reviewService.reviewInsert(reviewDTO);
-		
+
+		// userRating 
+		int result = reviewService.reviewUserRating(boardKind, boardNum);
+		if(result>0){
+			System.out.println("userRating 등록");
+		}else{
+			System.out.println("userRating 등록실패");
+		}
+
+		// list
 		this.forList(session, curPage, boardKind, boardNum, model);
 
 		return "movie/review/reviewResult"; 
@@ -102,32 +114,48 @@ public class ReviewController {
 	public String reviewDelete(HttpSession session, Integer curPage, int num, String boardKind, int boardNum, Model model) throws Exception{
 		// 삭제
 		reviewService.reviewDelete(num);
-		
+
+		// userRating 
+		int result = reviewService.reviewUserRating(boardKind, boardNum);
+		if(result>0){
+			System.out.println("userRating 등록");
+		}else{
+			System.out.println("userRating 등록실패");
+		}
+
 		this.forList(session, curPage, boardKind, boardNum, model);
-		
+
 		return "movie/review/reviewResult";
 	}
-	
+
 	// update - get
 	@RequestMapping(value="reivewUpdate", method=RequestMethod.GET)
 	public String reivewUpdate(HttpSession session, Integer curPage, String boardKind, int boardNum, int num, Model model) throws Exception{
 		ReviewDTO reviewDTO = reviewService.reviewSelectOne(num);
 		model.addAttribute("reviewDTO", reviewDTO);
-		
+
 		this.forList(session, curPage, boardKind, boardNum, model);
-		
+
 		return "movie/review/reviewResult";
 	}
-	
+
 	// update - post
 	@RequestMapping(value="reivewUpdate", method=RequestMethod.POST)
 	public String reivewUpdate(HttpSession session, Integer curPage, ReviewDTO reviewDTO, String boardKind, int boardNum, Model model) throws Exception{
 		// update
 		reviewService.reviewUpdate(reviewDTO);
-		
+
+		// userRating 
+		int result = reviewService.reviewUserRating(boardKind, boardNum);
+		if(result>0){
+			System.out.println("userRating 등록");
+		}else{
+			System.out.println("userRating 등록실패");
+		}
+
 		model.addAttribute("reviewDTO", null);
 		this.forList(session, curPage, boardKind, boardNum, model);
-		
+
 		return "movie/review/reviewResult";
 	}
 }

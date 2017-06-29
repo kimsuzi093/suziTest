@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.moco.movieAPI.BasicMovieDTO;
+import com.moco.movieAPI.movieRecommend.subDTO.AgeViewDTO;
 import com.moco.movieAPI.movieRecommend.subDTO.DirectorDTO;
 import com.moco.movieAPI.movieRecommend.subDTO.JjimRankDTO;
 import com.moco.movieAPI.movieRecommend.subDTO.ReviewRankDTO;
@@ -42,5 +43,15 @@ public class RecommendDAO {
 	// recent list
 	public List<BasicMovieDTO> recentList() throws Exception {
 		return sqlSession.selectList(MAPPER_NAME+"recentList");
+	}
+	
+	// 나이별 id 리스
+	public List<String> ageGroupList(Map<String, Object> map) throws Exception{
+		return sqlSession.selectList(MAPPER_NAME+"ageGroupList", map);
+	}
+	
+	// 나이별 최다 관람 영화 리스트
+	public List<AgeViewDTO> ageGroupViewList(Map<String, Object> map) throws Exception{
+		return sqlSession.selectList(MAPPER_NAME+"ageGroupViewList", map);
 	}
 }

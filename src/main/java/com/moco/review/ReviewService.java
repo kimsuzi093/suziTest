@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.moco.member.MemberDTO;
+import com.moco.movieAPI.BasicMovieDTO;
 import com.moco.util.PageMaker;
 import com.moco.util.PageResult;
 import com.moco.util.RowMaker;
@@ -19,7 +20,7 @@ public class ReviewService {
 
 	@Autowired
 	private ReviewDAO reviewDAO;
-	
+
 	// DTO set
 	public ReviewDTO reviewDTOSet(String boardKind, int boardNum) throws Exception{
 		ReviewDTO reviewDTO = new ReviewDTO();
@@ -32,7 +33,7 @@ public class ReviewService {
 		}
 		return reviewDTO;
 	}
-	
+
 	// 페이징
 	public PageResult pageing(Integer curPage, Integer perPage, String boardKind, int boardNum) throws Exception{
 		// 페이징 처리
@@ -44,7 +45,7 @@ public class ReviewService {
 		PageResult pageResult = pageMaker.paging(totalCount);
 		return pageResult;
 	}
-	
+
 	//reviewCheck
 	public boolean reviewCheck(HttpSession session, String boardKind, int boardNum) throws Exception{
 		// 후기를 안남겼다면 false, 남겼다면 true
@@ -55,17 +56,17 @@ public class ReviewService {
 		// id
 		String writer = ((MemberDTO)session.getAttribute("memberDTO")).getId();
 		reviewDTO.setWriter(writer);
-		
+
 		// check!
 		reviewDTO = reviewDAO.reviewCheck(reviewDTO);
-		
+
 		if(reviewDTO != null){
 			check = !check;
 		}
-		
+
 		return check;
 	}
-	
+
 	// reviewSelectList
 	public List<ReviewDTO> reviewSelectList(Integer curPage, String boardKind, int boardNum) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -77,7 +78,7 @@ public class ReviewService {
 			map.put("bNum", 0);
 			map.put("lNum", boardNum);
 		}
-		
+
 		RowMaker rowMaker = new RowMaker();
 		rowMaker.makeRow(curPage, 5);
 		map.put("row", rowMaker);
@@ -104,4 +105,44 @@ public class ReviewService {
 	public int reviewTotalCount(ReviewDTO reviewDTO) throws Exception{
 		return reviewDAO.reviewTotalCount(reviewDTO);
 	}
+
+	// reviewUserRating
+	public int reviewUserRating(String boardKind, int boardNum) throws Exception{
+		int result = 0;
+		ReviewDTO reviewDTO = this.reviewDTOSet(boardKind, boardNum);
+		int human = reviewDAO.reviewHuman(reviewDTO);
+		System.out.println("REviewService >리뷰 작성한 사람 수 : "+human);
+		double user_rating = 0;
+		List<Integer> ar = reviewDAO.reviewUserRating(reviewDTO);
+		int sum = 0;
+		for(int i=0;i<ar.size();i++){
+			sum = sum+ar.get(i);
+		}
+		System.out.println("REviewService > 리뷰 누적 별점 : "+sum);
+		if(sum>0){
+			user_rating = (double)sum/human;			
+		}
+		System.out.println("ReviewService > 평균점 : "+user_rating);
+		if(boardKind.equals("basicMovie")){
+			result = this.basicMovieUserRating(boardNum, user_rating);
+		}else{
+			//result = this.lowPriceMovieUserRating(boardNum, user_rating);
+		}
+		return result;
+	}
+	// basicMovieUserRating
+	public int basicMovieUserRating(int num, double user_rating) throws Exception{
+		BasicMovieDTO basicMovieDTO = new BasicMovieDTO();
+		basicMovieDTO.setNum(num);
+		basicMovieDTO.setUser_rating(user_rating);
+		return reviewDAO.basicMovieUserRating(basicMovieDTO);
+	}
+	// lowPriceMovieUserRating
+	/*public int lowPriceMovieUserRating(int num, double user_rating) throws Exception{
+		LowPriceMovieDTO lowPriceMovieDTO = new LowPriceMovieDTO();
+		lowPriceMovieDTO.setNum(num);
+		lowPriceMovieDTO.setUser_rating(user_rating);
+		return reviewDAO.lowPriceMovieUserRating(lowPriceMovieDTO);
+	}*/
+
 }

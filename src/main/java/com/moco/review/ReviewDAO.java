@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.moco.movieAPI.BasicMovieDTO;
+
 @Repository
 public class ReviewDAO {
 	
@@ -42,5 +44,22 @@ public class ReviewDAO {
 	public int reviewTotalCount(ReviewDTO reviewDTO) throws Exception{
 		return sqlSession.selectOne(NAMESPACE+"reviewTotalCount", reviewDTO);
 	}
+	
+	// reviewHuman
+	public int reviewHuman(ReviewDTO reviewDTO) throws Exception{
+		return sqlSession.selectOne(NAMESPACE+"reviewHuman", reviewDTO);
+	}
+	// reviewUserRating
+	public List<Integer> reviewUserRating(ReviewDTO reviewDTO) throws Exception{
+		return sqlSession.selectList(NAMESPACE+"reviewUserRating", reviewDTO);
+	}
+	// basicMovieUserRating
+	public int basicMovieUserRating(BasicMovieDTO basicMovieDTO) throws Exception{
+		return sqlSession.update(NAMESPACE+"basicMovieUserRating", basicMovieDTO);
+	}
+	// lowPriceMovieUserRating
+	/*public int lowPriceMovieUserRating(LowPriceMovieDTO lowPriceMovieDTO) throws Exception{
+		return sqlSession.update(NAMESPACE+"lowPriceMovieUserRating", lowPriceMovieDTO);
+	}*/
 	
 }

@@ -61,10 +61,12 @@
 				or genre like '%애니메이션%'
 			</if>
 			<if test="weather eq 1">
-				where genre like '%공포%'
-				or genre like '%스릴러%'
+				where genre like '%스릴러%'
 				or genre like '%범죄%'
 				or genre like '%미스터리%'
+			</if>
+			<if test="weather eq 2">
+				where genre like '%공포%'
 			</if>
 			order by DBMS_RANDOM.RANDOM 
 		</if>
@@ -93,5 +95,37 @@
 		select rownum, F.* from ( 
 		(select * from basicmovie where pub_date>sysdate order by pub_date) F)
 		where rownum<![CDATA[ < 21]]>
+	</select>
+	<!-- 나이별 멤버 id 리스트 -->
+	<select id="ageGroupList" parameterType="java.util.Map" resultType="String">
+		select id from 
+		((select TO_CHAR(birth,'YYYY') sys_year4, member.* from member) F)
+			<if test="age eq '10'">
+			where 2017-F.sys_year4<![CDATA[ < 20]]>
+			</if>
+			<if test="age eq '20'">
+				where 2017-F.sys_year4<![CDATA[ > 19]]> and 2017-F.sys_year4<![CDATA[ < 30]]>
+			</if>
+			<if test="age eq '30'">
+				where 2017-F.sys_year4<![CDATA[ > 29]]> and 2017-F.sys_year4<![CDATA[ < 40]]>
+			</if>
+			<if test="age eq '40'">
+				where 2017-F.sys_year4<![CDATA[ > 39]]> and 2017-F.sys_year4<![CDATA[ < 50]]>
+			</if>
+			<if test="age eq '50'">
+				where 2017-F.sys_year4<![CDATA[ > 49]]>
+			</if>
+	</select>
+	<!-- 나이별 최다 관람(view check) 리스트 -->
+	<select id="ageGroupViewList" parameterType="java.util.Map" resultType="com.moco.movieAPI.movieRecommend.subDTO.AgeViewDTO" >
+		select * from basicmovie, 
+		((select count(id) count, bnum from viewcheck 
+		<where>
+			<foreach collection="ageList" item="item" >
+				or id=#{item}
+			</foreach>
+		</where>
+		group by bnum order by count desc)F)
+		where basicmovie.num=F.bnum
 	</select>
 </mapper>

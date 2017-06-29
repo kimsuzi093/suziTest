@@ -114,10 +114,11 @@
 	</c:if>
 	<!-- 리뷰가 1개라도 있다면 -->
 	<c:if test="${totalCount > 0}">			
+	<!-- 다른 사람 리뷰 -->
 		<c:forEach items="${reviewList}" var="review">
 			<tr>
 				<c:if test="${review.num != reviewDTO.num}">
-					<td>
+					<td colspan="2">
 						<c:choose>
 							<c:when test="${review.myRating == 1}">
 								<span class="star">
@@ -391,6 +392,8 @@
 								10점</span>
 							</c:when>
 						</c:choose>
+						</td>
+						<td>
 						<input type="text" readonly="readonly" value="${reviewDTO.writer}" id="reviewUpdateWriter">
 						<input type="hidden" id="reviewUpdateNum" value="${reviewDTO.num }">
 						<input type="hidden" id="updateMyRating" value="${reviewDTO.myRating}">

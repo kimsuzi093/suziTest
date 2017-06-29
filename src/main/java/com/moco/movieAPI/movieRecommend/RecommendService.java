@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.moco.movieAPI.BasicMovieDTO;
+import com.moco.movieAPI.movieRecommend.subDTO.AgeViewDTO;
 import com.moco.movieAPI.movieRecommend.subDTO.DirectorDTO;
 import com.moco.movieAPI.movieRecommend.subDTO.JjimRankDTO;
 import com.moco.movieAPI.movieRecommend.subDTO.ReviewRankDTO;
@@ -41,5 +42,15 @@ public class RecommendService {
 	// recent list
 	public List<BasicMovieDTO> recentList() throws Exception {
 		return recommendDAO.recentList();
+	}
+
+	// 나이별 id 리스
+	public List<String> ageGroupList(Map<String, Object> map) throws Exception{
+		return recommendDAO.ageGroupList(map);
+	}
+
+	// 나이별 최다 관람 영화 리스트
+	public List<AgeViewDTO> ageGroupViewList(Map<String, Object> map) throws Exception{
+		return recommendDAO.ageGroupViewList(map);
 	}
 }

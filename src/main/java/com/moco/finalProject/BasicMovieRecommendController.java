@@ -12,8 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.moco.member.MemberDTO;
 import com.moco.movieAPI.BasicMovieDTO;
 import com.moco.movieAPI.movieRecommend.RecommendService;
+import com.moco.movieAPI.movieRecommend.subDTO.AgeViewDTO;
 import com.moco.movieAPI.movieRecommend.subDTO.DirectorDTO;
 import com.moco.movieAPI.movieRecommend.subDTO.JjimRankDTO;
 import com.moco.movieAPI.movieRecommend.subDTO.ReviewRankDTO;
@@ -33,7 +35,6 @@ public class BasicMovieRecommendController {
 	
 	@RequestMapping(value="recommendList", method=RequestMethod.GET)
 	public void recommendList(String criteria, String subCriteria, Model model){
-		System.out.println(criteria+"/"+subCriteria);
 		List<BasicMovieDTO> movieList = new ArrayList<BasicMovieDTO>(); // 영화 리스트
 		Map<String, Object> criteria_map = new HashMap<String, Object>(); // 조건 map
 		Map<String, Object> movie_map = new HashMap<String, Object>(); // 넘겨줄 list map
@@ -54,7 +55,23 @@ public class BasicMovieRecommendController {
 			}
 			// 나이별 최다관람순
 			else if(criteria.equals("age")){
+				List<String> memberList = new ArrayList<String>();
+				List<AgeViewDTO> ageViewList = new ArrayList<AgeViewDTO>();
 				
+				criteria_map.put("age", subCriteria);
+				memberList = recommendService.ageGroupList(criteria_map);
+				
+				if(memberList.size()>0){
+					criteria_map.put("ageListCheck", "check");
+					criteria_map.put("ageList", memberList);
+					ageViewList = recommendService.ageGroupViewList(criteria_map);
+				}
+				
+				if(ageViewList.size()>0){
+					movie_map.put("ageViewList", ageViewList);
+				}else{
+					movie_map.put("noListMessage", "NO LIST");
+				}
 			}
 			// 오늘날씨
 			else if(criteria.equals("weather")){
@@ -63,8 +80,10 @@ public class BasicMovieRecommendController {
 				if(sky_code!=null){
 					if(sky_code.equalsIgnoreCase("SKY_D01") ||sky_code.equalsIgnoreCase("SKY_D02")){
 						criteria_map.put("weather", 0);
-					}else{
+					}else if(sky_code.equalsIgnoreCase("SKY_D03") ||sky_code.equalsIgnoreCase("SKY_D04")){
 						criteria_map.put("weather", 1);
+					}else{
+						criteria_map.put("weather", 2);
 					}
 				}
 			}

@@ -334,7 +334,7 @@
 			<p>${movieDTO.title }</p>
 			<p>${movieDTO.eng_title }</p>
 			<span class="star-rating">
-				<span style="width: ${movieDTO.user_rating }%"></span>
+				<span style="width: ${movieDTO.user_rating*10}%"></span>
 			</span>
 			<span>${movieDTO.user_rating }/10 (-명 참여)</span>
 			<p><strong>개요</strong> ${movieDTO.genre } | ${movieDTO.nation } | ${movieDTO.play_time } | ${movieDTO.pub_date }개봉</p>
