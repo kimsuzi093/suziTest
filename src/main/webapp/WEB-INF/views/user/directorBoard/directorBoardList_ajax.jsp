@@ -8,7 +8,7 @@
 		<div class="contents" id="${list.num}">
 		<div class="contents-top">
 			<div class="contents-top-left">
-				<img src="../../resources/images/sample_img.jpg">
+				<img src="../../resources/images/directorBoard/sample_img.jpg">
 			</div>
 			<div class="contents-top-rigth">
 				<p>제목 - ${list.title }</p>

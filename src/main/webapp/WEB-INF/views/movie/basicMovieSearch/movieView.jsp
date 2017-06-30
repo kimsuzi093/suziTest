@@ -300,7 +300,7 @@
 		display:inline-block; 
 		height:19px; 
 		overflow:hidden; 
-		background:url(../../resources/images/star.png)no-repeat; 
+		background:url(../../resources/images/movie/star.png)no-repeat; 
 	}
 	.star-rating span{ 
 		background-position:left bottom; 

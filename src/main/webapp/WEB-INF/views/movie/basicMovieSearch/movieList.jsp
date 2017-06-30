@@ -7,7 +7,7 @@
 	<div class="searchResultWrap" id="${list.num }">
 		<div class="searchResultWrap-left">
 			<c:if test="${list.thumnail == null }">
-				<img src="../../resources/images/sample_img.jpg">
+				<img src="../../resources/images/directorBoard/sample_img.jpg">
 			</c:if>
 			<c:if test="${list.thumnail != null }">
 				<img src="${list.thumnail }">

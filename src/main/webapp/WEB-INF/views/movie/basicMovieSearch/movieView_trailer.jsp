@@ -7,7 +7,7 @@
 	</ul>
 	<div class="middle">
 		<video controls autoplay>
-			<source src="../../resources/images/sample_video.mp4" type="video/mp4">
+			<source src="../../resources/upload/movieTrailer/sample_video.mp4" type="video/mp4">
 		</video>
 	</div>
 </div>
